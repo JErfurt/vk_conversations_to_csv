@@ -1,2 +1,9 @@
-# vk_conversations_to_csv
-vk_conversations_to_csv
+# Collect your messages from social media VK.COM to learn your AI!
+---
+## Репозиторий содержит:
+- vk_info.py - файл для хранения вашего токена vk api
+- gethistory.py - файл с функциями для сбора сообщений из социальной сети
+- csv_tools.py - файл с функциями по стилизации данных и обработке по патернам шаших строк в csv файле
+
+---
+### При обработке инструментом *csv_tools.py* **РЕКОМЕНДУЮ СДЕЛАТЬ РЕЗЕРВНУЮ КОПИЮ ИСХОДНОГО CSV ФАЙЛА** 
