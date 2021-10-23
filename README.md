@@ -1,4 +1,4 @@
-# Collect your messages from social media VK.COM to learn your AI!
+# Collect your messages from social media VK.COM to train your AI!
 ## Подробнее:
 - Репозиторий поможет собрать ваши сообщения в csv файл в виде {partner_msg},"{your_msg}"
 - Скрипт работает пока только с личными чатами, вероятность сбора осмысленных и полезных данных для обучения там выше!
