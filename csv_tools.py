@@ -16,23 +16,32 @@ def getListfromFile(file_name='Alldialogs'):
 	return List
 
 def delRptdMsgs(List):
-	original = len(List)
-	last_deleted = 1
-	while last_deleted != 0:
+	main_count = 0
+	while True:
 		last_deleted = 0
 		for x in List: 
 			if List.count(x) > 1:
 				List.remove(x)
 				last_deleted = last_deleted + 1
-		print('Строчек удалено:', last_deleted)
+				main_count = main_count + 1
+		if last_deleted == 0:
+			break
+	print('Строчек удалено:', main_count)
 	return List
 
 def delStrsWthSpclSmbl(List, smbl):
-	last_deleted = 0
-	for i in range(len(List)): 
-		List[i] = List[i].replace('  ', ' ')
-		last_deleted = last_deleted + 1
-	print("Особых символов удалено:", last_deleted)
+	main_count = 0
+	while True:
+		last_edited = 0
+		for i in range(len(List)): 
+			previous_item = List[i]
+			List[i] = List[i].replace(smbl, ' ')
+			if previous_item != List[i]:
+				last_edited = last_edited + 1
+				main_count = main_count + 1
+		if last_edited == 0:
+			break
+	print("Особых символов удалено:", main_count)
 	return List
 
 def delStrsWthSpclWrdStartwith(List, wrd):
@@ -45,7 +54,7 @@ def sortList(List):
 	List.sort()
 	return List
 
-def writeInFile(List):
+def writeInFile(List, file_name='Alldialogs'):
 	print("Строчек записываем:", len(List))
 	g = open("{}.csv".format(file_name), 'w')
 	for i in range(len(List)):
@@ -54,4 +63,7 @@ def writeInFile(List):
 
 
 if __name__ == "__main__":
+	List = getListfromFile('one_of_two_rost24_10')
+	List = delRptdMsgs(List)
+	writeInFile(List, 'one_of_two_rost24_10')
 	pass
