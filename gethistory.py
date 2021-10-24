@@ -13,6 +13,9 @@ import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 import time
 
+# Импортируем функцию из другого файла моего репозитория
+from csv_tools import delRptdMsgs
+
 from vk_info import token
 
 # Введите ваш vk токен в файле vk_info
@@ -29,21 +32,27 @@ longpoll = VkLongPoll(vk_session)
 def getHistory(id, count, offset):
     return vk_session.method('messages.getHistory', {'user_id' : id, 'count' : count, 'offset' : offset, 'rev' : '1'})
 
-def getConversations():
+def getConversations(count, offset=0):
     #messages.getConversations выводит последние 20
-    return vk_session.method('messages.getConversations', {'fields' : '', 'count' : '200'})
+    return vk_session.method('messages.getConversations', {'fields' : '', 'count' : count, 'offset' : offset})
 
 def getUserIdConversations():
-    # Баг, идёт по 2 кругу, потом исправлю
     ids = []
-    Conversations = getConversations()
-    count = Conversations['count']
-    cycles = count // 199
-    if count > 199:
-        if cycles % 199 > 0:
-            cycles = cycles + 1
+    count = getConversations('0')['count']
+    count = int(count)
 
-    for i0 in range(cycles):
+    cycle = count // 199
+    if count > 199:
+        if count % 199 > 0:
+            cycle = cycle + 1
+
+    for i0 in range(cycle):
+        Conversations = getConversations('200', i0*199)
+        if count > 199:
+            cycle = count // 199
+            if count % 199 > 0:
+                cycle = cycle + 1
+
         for i in range(count):
             if i > 199:
                 i = count
@@ -53,7 +62,7 @@ def getUserIdConversations():
                 ids.append(Conversations['items'][i]['conversation']['peer']['id'])
         if count > 199:
             count = count - 199
-    return ids
+    return delRptdMsgs(ids)
 
 def writeOneUserConversation(id):
     f = open('Onedialog.csv', 'w')
@@ -114,10 +123,6 @@ def wirte_msgs(f ,partner_id, user_nomer=0, count_ids=0):
                     if attach_type == 'transcript':
                         text = history['items'][i]['attachments'][0]['audio_message']['transcript']
             
-            if last_from_id == '' and from_id == my_id:
-                last_from_id = my_id
-                break
-
             if text != '':
 #                print('Сообщение №:', i)
                 #print('Сообщение от:', from_id)
@@ -156,6 +161,7 @@ def wirte_msgs(f ,partner_id, user_nomer=0, count_ids=0):
 
 
 if __name__ == "__main__":   
-#    print(writeOneUserConversation('260774716'))
-    print(writeAllUserConversations())
-
+#    print(getUserIdConversations())
+    print(writeOneUserConversation('435073237'))
+#    print(writeAllUserConversations())
+    pass
