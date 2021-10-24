@@ -34,7 +34,7 @@ def getConversations():
     return vk_session.method('messages.getConversations', {'fields' : '', 'count' : '200'})
 
 def getUserIdConversations():
-    # Баг, идёт по 2 кругу и пишет, что пользователей 400. 39 строка может помочь, добавил
+    # Баг, идёт по 2 кругу, потом исправлю
     ids = []
     Conversations = getConversations()
     count = Conversations['count']
