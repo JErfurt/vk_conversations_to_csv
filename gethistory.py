@@ -5,7 +5,7 @@
 # \_____   ___/     \/    writer 2021 REV.01
 #                         ----------
 
-# JErfurt 2021
+# JErfurt 2021 - 2022
 
 # Пишет сообщения из диалога в csv файл
 
@@ -23,7 +23,7 @@ from vk_info import token
 # Выбирайте kate mobile, с ним лучше работает
 
 # Введите ваш id!!! (в следующей версии добавлю получение id по api)
-my_id = '140109438'
+my_id = ''
 
 vk_session = vk_api.VkApi(token = token)
 vk = vk_session.get_api()
@@ -45,6 +45,9 @@ def getUserIdConversations():
     if count > 199:
         if count % 199 > 0:
             cycle = cycle + 1
+
+    if count < 199:
+        cycle = 1
 
     for i0 in range(cycle):
         Conversations = getConversations('200', i0*199)
@@ -161,7 +164,11 @@ def wirte_msgs(f ,partner_id, user_nomer=0, count_ids=0):
 
 
 if __name__ == "__main__":   
+    if my_id == '':
+        print('Введите свой id в начале кода')
+    else:
+        print(writeAllUserConversations())
 #    print(getUserIdConversations())
-    print(writeOneUserConversation('435073237'))
-#    print(writeAllUserConversations())
-    pass
+#    print(writeOneUserConversation(''))
+#    print(getConversations('200'))
+#    print(getHistory('', '1', '0'))
